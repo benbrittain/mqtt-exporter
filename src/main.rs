@@ -38,10 +38,12 @@ async fn main() -> Result<(), Error> {
         Ok::<_, hyper::Error>(service_fn(prometheus_server::serve))
     }));
 
+    // <<< Any new parsers must be registered here >>>
     let mut parser = ExporterRegistry::new();
     parser.register(Box::new(particles::ParticleExporter::default()));
-    let dispatch = &|msg| parser.dispatch(msg);
 
+
+    let dispatch = &|msg| parser.dispatch(msg);
     tokio::select! {
         _prometheus = serve_future => (),
         _mqtt = mqtt::run(cli, strm, dispatch) => (),

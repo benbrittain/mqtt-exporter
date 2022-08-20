@@ -8,6 +8,7 @@ use prometheus::{self, register_gauge, Gauge};
 /// Exporter for the 'particle' channel
 pub struct ParticleExporter;
 
+// <<< and implement this trait >>>
 impl Exporter<Particles> for ParticleExporter {
     fn channel(&self) -> &str {
         "particle"
